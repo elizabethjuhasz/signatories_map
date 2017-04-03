@@ -1,3 +1,58 @@
 # world map with signatory states for 1951 Convention and 1967 protocol
 # using rworldmap package & rcolorbrewer
-# code inspired by http://stackoverflow.com/questions/11225343/how-to-create-a-world-map-in-r-with-specific-countries-filled-in?newreg=e2a8bf5e03334bcc8b5b2ede6848c74d
+
+library(rworldmap)
+library(RColorBrewer)
+
+theCountries <- c("AFG", "ALB", "DZA", "AGO", "ATG", "ARG", "ARM", "AUS", "AUT", "AZE",
+                  "BHS", "BLR", "BEL", "BLZ", "BEN", "BOL", "BIH", "BWA", "BRA", "BGR",
+                  "BFA", "BDI", "CPV", "KHM", "CMR", "CAN", "CAF", "TCD", "CHL", "CHN",
+                  "COL", "COG", "CRI", "CIV", "HRV", "CYP", "CZE", "COD", "DNK", "DJI",
+                  "DMA", "DOM", "ECU", "EGY", "SLV", "GNQ", "EST", "ETH", "FJI", "FIN",
+                  "FRA", "GAB", "GEO", "DEU", "GHA", "GRC", "GTM", "GIN", "GNB", "HTI",
+                  "VAT", "HND", "HUN", "ISL", "IRN", "IRL", "ISR", "ITA", "JAM", "JPN",
+                  "KAZ", "KEN", "LVA", "LSO", "LBR", "LIE", "LTU", "LUX", "MDG", "MWI",
+                  "MLI", "MLT", "MRT", "MEX", "MDA", "MCO", "MNE", "MAR", "MOZ", "NAM",
+                  "NRU", "NLD", "NZL", "NIC", "NER", "NGA", "NOR", "PAN", "PNG", "PRY",
+                  "PER", "PHL", "POL", "PRT", "KOR", "ROU", "RUS", "RWA", "KNA", "VCT",
+                  "WSM", "STP", "SEN", "SRB", "SYC", "SLE", "SVK", "SVN", "SLB", "SOM",
+                  "ZAF", "ESP", "SDN", "SUR", "SWZ", "SWE", "CHE", "TJK", "MKD", "TLS",
+                  "TGO", "TTO", "TUN", "TUR", "TKM", "TUV", "UGA", "UKR", "GBR", "TZA",
+                  "USA", "URY", "VEN", "YEM", "ZMB", "ZWE")
+
+sigDF <- data.frame(country = c("AFG", "ALB", "DZA", "AGO", "ATG", "ARG", "ARM", "AUS", "AUT", "AZE",
+                                "BHR", "BLR", "BEL", "BLZ", "BEN", "BOL", "BIH", "BWA", "BRA", "BGR",
+                                "BFA", "BDI", "CPV", "KHM", "CMR", "CAN", "CAF", "TCD", "CHL", "CHN",
+                                "COL", "COG","CRI", "CIV", "HRV", "CYP", "CZE", "COD", "DNK", "DJI",
+                                "DMA", "DOM", "ECU", "EGY", "SLV", "GNQ", "EST", "ETH", "FJI", "FIN",
+                                "FRA", "GAB", "GEO", "DEU", "GHA", "GRC", "GTM", "GIN", "GNB", "HTI",
+                                "VAT", "HND", "HUN", "ISL", "IRN", "IRL", "ISR", "ITA", "JAM", "JPN",
+                                "KAZ", "KEN", "LVA", "LSO", "LBR", "LIE", "LTU", "LUX", "MDG", "MWI",
+                                "MLI", "MLT", "MRT", "MEX", "MDA", "MCO", "MNE", "MAR", "MOZ", "NAM",
+                                "NRU", "NLD", "NZL", "NIC", "NER", "NGA", "NOR", "PAN", "PNG", "PRY",
+                                "PER", "PHL", "POL", "PRT", "KOR", "ROU", "RUS", "RWA", "KNA", "VCT",
+                                "WSM", "STP", "SEN", "SRB", "SYC", "SLE", "SVK", "SVN", "SLB", "SOM",
+                                "ZAF", "ESP", "SDN", "SUR", "SWZ", "SWE", "CHE", "TJK", "MKD", "TLS",
+                                "TGO", "TTO", "TUN", "TUR", "TKM", "TUV", "UGA", "UKR", "GBR", "TZA",
+                                "USA", "URY", "VEN", "YEM", "ZMB", "ZWE"),
+                   Signatories = c("both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "1967 only", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "1967 only", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "1951 only", "both", "both", "both", "both", "both",
+                                   "both","both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "both", "both", "both", "both",
+                                   "both", "both", "both", "both", "both", "both", "1967 only", "both", "1967 only",
+                                   "both", "both", "both"))
+
+sigMap <- joinCountryData2Map(sigDF, joinCode = "ISO3",
+                              nameJoinColumn = "country")
+colourPalette <- RColorBrewer::brewer.pal(3,"Set2")
+mapParams <- mapCountryData(sigMap, nameColumnToPlot="Signatories", catMethod = "categorical",
+                            missingCountryCol = gray(.8), colourPalette = colourPalette)
