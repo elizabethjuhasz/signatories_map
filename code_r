@@ -1,0 +1,3 @@
+# world map with signatory states for 1951 Convention and 1967 protocol
+# using rworldmap package & rcolorbrewer
+# code inspired by http://stackoverflow.com/questions/11225343/how-to-create-a-world-map-in-r-with-specific-countries-filled-in?newreg=e2a8bf5e03334bcc8b5b2ede6848c74d
